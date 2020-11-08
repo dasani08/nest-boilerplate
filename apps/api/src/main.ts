@@ -3,10 +3,10 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import * as morgan from 'morgan';
 import {
   ExpressAdapter,
-  NestExpressApplication
+  NestExpressApplication,
 } from '@nestjs/platform-express';
 
-import '@tesen/core/boilerplate.polyfill';
+import '@app/core/boilerplate.polyfill';
 import { CoreModule, ConfigService, HttpExceptionFilter } from '@app/core';
 import { SERVICE_NAME, PORT } from './constants';
 import { AppModule } from './app.module';
@@ -16,13 +16,13 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
     AppModule,
     new ExpressAdapter(),
-    { cors: true }
+    { cors: true },
   );
 
   app.use(
     morgan(
-      ':method :url :status :res[content-length] - :response-time ms - :user-agent'
-    )
+      ':method :url :status :res[content-length] - :response-time ms - :user-agent',
+    ),
   );
 
   const reflector = app.get(Reflector);
@@ -37,9 +37,9 @@ async function bootstrap() {
       transform: true,
       disableErrorMessages: false,
       validationError: {
-        target: false
-      }
-    })
+        target: false,
+      },
+    }),
   );
 
   const configService = app.select(CoreModule).get(ConfigService);
