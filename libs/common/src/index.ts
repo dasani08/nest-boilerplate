@@ -7,3 +7,4 @@ export * from './user.service';
 export * from './guards/role.guard';
 export * from './decorators/roles.decorator';
 export * from './enum';
+export * from './entities';

@@ -1,13 +1,20 @@
+import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
 import { CounterService } from './counter.service';
 import { UserService } from './user.service';
 
-import SCHEMAS from './schema';
-import { MongooseModule } from '@nestjs/mongoose';
+import ENTITIES from './entities';
 
 @Module({
   providers: [CounterService, UserService],
-  exports: [CounterService, UserService, MongooseModule.forFeature(SCHEMAS)],
-  imports: [MongooseModule.forFeature(SCHEMAS)]
+  exports: [CounterService, UserService],
+  imports: [
+    MikroOrmModule.forRoot({
+      entities: ENTITIES,
+      dbName: 'my-db-name',
+      type: 'mongo',
+      clientUrl: 'mongodb://localhost:27017',
+    }),
+  ],
 })
 export class CommonModule {}
